@@ -1,1 +1,84 @@
 
+# AWX Operator Helm values generated from current CRD
+
+deployment_type: awx
+
+# Liczba replik web i task
+replicas: 1
+
+# Typ serwisu
+service_type: NodePort
+
+# Storage dla PostgreSQL
+postgresql:
+  enabled: true
+  data_volume_init: true
+  init_container_commands: |
+    chown 26:0 /var/lib/pgsql/data
+    chmod 700 /var/lib/pgsql/data
+  storage_class: local-path
+  keepalives: true
+  keepalives_count: 5
+  keepalives_idle: 5
+  keepalives_interval: 5
+
+# Projekty (persistent volume)
+projects_persistence: false
+projects_storage_access_mode: ReadWriteMany
+projects_storage_size: 8Gi
+
+# Ingress / LoadBalancer
+loadbalancer_class: ""
+loadbalancer_ip: ""
+loadbalancer_port: 80
+loadbalancer_protocol: http
+route_tls_termination_mechanism: Edge
+
+# Admin user
+admin_user: admin
+create_preload_data: true
+
+# Image
+image:
+  repository: quay.io/ansible/awx
+  tag: "24.6.1"
+  pullPolicy: IfNotPresent
+
+# Liveness / readiness
+task_liveness_failure_threshold: 3
+task_liveness_initial_delay: 5
+task_liveness_period: 0
+task_liveness_timeout: 1
+task_manage_replicas: true
+task_privileged: false
+
+web_liveness_failure_threshold: 3
+web_liveness_initial_delay: 5
+web_liveness_period: 0
+web_liveness_timeout: 1
+web_manage_replicas: true
+
+task_readiness_failure_threshold: 3
+task_readiness_initial_delay: 20
+task_readiness_period: 0
+task_readiness_timeout: 1
+
+web_readiness_failure_threshold: 3
+web_readiness_initial_delay: 20
+web_readiness_period: 0
+web_readiness_timeout: 1
+
+# Auto upgrade
+auto_upgrade: true
+
+# Metrics utility (opcjonalnie)
+metrics_utility_enabled: false
+metrics_utility_console_enabled: false
+metrics_utility_cronjob_gather_schedule: '@hourly'
+metrics_utility_cronjob_report_schedule: '@monthly'
+
+# Inne
+no_log: true
+ipv6_disabled: false
+set_self_labels: true
+garbage_collect_secrets: false
