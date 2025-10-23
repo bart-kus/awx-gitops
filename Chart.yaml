@@ -1,1 +1,10 @@
-
+apiVersion: v2
+name: awx
+description: AWX deployment via Helm + ArgoCD
+type: application
+version: 1.0.0
+appVersion: "2.19.1"
+dependencies:
+  - name: awx-operator
+    version: 2.19.1
+    repository: https://ansible.github.io/awx-operator/
