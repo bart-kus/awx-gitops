@@ -1,6 +1,3 @@
-
-# AWX Operator Helm values generated from current CRD
-
 deployment_type: awx
 
 # Liczba replik web i task
